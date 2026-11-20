@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "剧情向多人格插件",
+    "description": "Multi-persona talk in one window: address-based switching, several personas on stage at once, per-persona avatars with names, and story-stage avatar switching (panel stage picker / stage upload, or {{stage:stageId}} marks)."
+  }
+}
