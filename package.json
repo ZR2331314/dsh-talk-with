@@ -1,0 +1,53 @@
+{
+  "name": "dsh-talk-with",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "剧情向多人格插件：同窗口多人格按称呼自动切换、可同台接话，人格 = 一个文件夹（persona.json + prompt.md + avatar），每人一副头像，头像下方显示人格名；剧情阶段头像自动替换（面板可选阶段、传阶段图，或剧情中输出 {{stage:阶段id}} 标记切换）。",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "agent",
+    "persona",
+    "avatar",
+    "story",
+    "stage"
+  ],
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "examples"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "react": "^18.3.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": []
+    }
+  },
+  "license": "MIT"
+}
