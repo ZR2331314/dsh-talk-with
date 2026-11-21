@@ -138,7 +138,7 @@ window.__ModuleLoader__.load({
       const theirUserNodes = layer.theirUserNodes ?? 0
       const personaId = layer.persona ? layer.persona.id : ''
       // 上限 200 字（宿主侧会截断）：mode / 人格 / 自绘助手节点 / 被改写的壁纸节点 / 用户侧（自绘/被改写）
-      const detail = `${layer.mode}|${personaId}|own=${ownNodes}|their=${theirNodes}|u=${ownUserNodes}/${theirUserNodes}`
+      const detail = `${layer.mode}|${personaId}|own=${ownNodes}|their=${theirNodes}|u=${ownUserNodes}/${theirUserNodes}|build=sectionfix2`
       if (detail === layer.lastReport) return
       layer.lastReport = detail
       try {
@@ -386,17 +386,20 @@ window.__ModuleLoader__.load({
      * 同台消息分节：把一条消息里「【名字】」独立成段的位置拆成节。
      * DSH 一次模型输出就是一条消息（一个 DOM 行），几个格各说一段时全挤在这条消息里，
      * 所以不能按行贴头像，要按消息内部的节来贴。
+     * 不限定块标签：遍历行的叶子元素，文本恰好是「【名字】」的就算一节标题，
+     * 渲染器换成 div/span 也照常工作。
      * @returns {Array<{name: string, el: Element}>} el 是节标题所在块元素，用来对齐头像
      */
     function splitSections(row) {
       const sections = []
       let blocks
       try {
-        blocks = row.querySelectorAll('p, li')
+        blocks = row.querySelectorAll('*')
       } catch (_error) {
         return sections
       }
       for (const block of blocks) {
+        if (block.firstElementChild) continue // 只认叶子块，避免把整行误判成节
         const text = (block.textContent || '').trim()
         const match = /^【(.+?)】\s*$/.exec(text)
         if (match && match[1]) sections.push({ name: match[1], el: block })
